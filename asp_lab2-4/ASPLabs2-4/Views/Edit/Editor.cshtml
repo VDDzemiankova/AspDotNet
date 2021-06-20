@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Editor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model ASPLabs2_4.ViewModels.CarCategViewModel
+
+<h2>Изменить</h2>
+@using (Html.BeginForm("Editor", "Edit", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(a => a.Car.Id)
+    <p>Имя</p>
+    @Html.EditorFor(a => a.Car.Name)
+    @Html.ValidationMessageFor(a => a.Car.Name)
+    <p>Производитель</p>
+    @Html.EditorFor(a => a.Car.Maker)
+    @Html.ValidationMessageFor(a => a.Car.Maker)
+    <p>Изображение</p>
+    <input type="file" accept="image/*" value="@Model.Car.ImagePath" name="upload">
+    <p>Бренд</p>
+    <input name="Car.Brand" value="@(Model.Car.Brand)">
+    @Html.ValidationMessageFor(a => a.Car.Brand)
+    <p>Цена</p>
+    @Html.EditorFor(a => a.Car.Price)
+    @Html.ValidationMessageFor(a => a.Car.Price)
+    <p>Категория</p>
+    @Html.DropDownList("CategoryId",
+   Model.Categories.Select(m => new SelectListItem
+   {
+       Selected = m.Id == Model.Car.CategoryId ? true : false,
+       Value = m.Id.ToString(),
+       Text = m.Name
+   }),
+   new { @class = "form-control", value = Model.Car.CategoryId })
+    <br>
+    <input type="submit" value="Изменить" />
+}
+
